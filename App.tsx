@@ -1,31 +1,58 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-
+import React, { useState } from "react";
+import { View, Text, StyleSheet, Button } from "react-native";
+type Consulta = {
+  id: number;
+  paciente: string;
+  medico: string;
+  data: string;
+  status: "agendada" | "confirmada" | "cancelada" | "realizada";
+};
 export default function App() {
+  const [consulta, setConsulta] = useState<Consulta>({
+    id: 1,
+    paciente: "Carlos Andrade",
+    medico: "Dr. Roberto Silva",
+    data: "28/02/2026",
+    status: "agendada",
+  });
+  function confirmarConsulta() {
+    setConsulta({
+      ...consulta,
+      status: "confirmada",
+    });
+  }
   return (
     <View style={styles.container}>
-      <Text style={styles.titulo}>Ok I pull up!</Text>
-      <text style={styles.subtitulo}>\ ('O') /</text>
-      <StatusBar style="auto"/>
+      <Text style={styles.titulo}>Sistema de Consultas</Text>
+      <View style={styles.card}>
+        <Text>Paciente: {consulta.paciente}</Text>
+        <Text>Médico: {consulta.medico}</Text>
+        <Text>Data: {consulta.data}</Text>
+        <Text>Status: {consulta.status}</Text>
+        {consulta.status === "agendada" && (
+          <Button title="Confirmar Consulta" onPress={confirmarConsulta} />
+        )}
+      </View>
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#b8adad",
+    alignItems: "center",
+    justifyContent: "center",
   },
   titulo: {
-    color: `#ff0000`,
-    fontSize: 50,
-    fontWeight: 'bold',
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 20,
   },
-  subtitulo: {
-    color: `#ff0000`,
-    fontSize: 30,
-    fontWeight: 'bold',
-  }
+  card: {
+    width: "80%",
+    padding: 20,
+    borderWidth: 1,
+    borderRadius: 8,
+    backgroundColor:'#fff',
+  },
 });
